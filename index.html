@@ -4,19 +4,12 @@
     <title>Form validation</title>
     <meta charset="utf-8" />
     <style>
-      input {
-        border: 1px solid rgb(168, 168, 168);
-        border-radius: 4px;
-        font-size: 1rem;
-        padding: 0.5rem 0.75rem;
-      }
-
       form[data-submitted] input {
-        border: 4px solid blue;
+        border-color: dodgerblue;
       }
 
       form[data-submitted] :invalid {
-        border: 8px solid red;
+        border-color: tomato;
       }
     </style>
   </head>
@@ -24,21 +17,23 @@
   <body>
     <form novalidate onsubmit="onSubmit(event)">
       <p>
-        <label for="name">Name:</label><br />
+        <label for="fullname">Name:</label>
+        <br />
         <input
-          id="name"
-          name="name"
+          id="fullname"
+          name="fullname"
           type="text"
           required
           minlength="3"
           maxlength="10"
           placeholder="First and last name"
         /><br />
-        <output for="name" hidden><img src="aaa" alt="E" /></output>
+        <output for="name" hidden></output>
       </p>
 
       <p>
-        <label for="url"><abbr>URL</abbr>:</label><br />
+        <label for="url">Website:</label>
+        <br />
         <input
           id="url"
           name="url"
@@ -51,7 +46,8 @@
       </p>
 
       <p>
-        <label for="team">Team:</label><br />
+        <label for="team">Team:</label>
+        <br />
         <select id="team" name="team">
           <option>Team 1</option>
           <option>Team 2</option>
@@ -66,7 +62,8 @@
     </form>
 
     <script type="module">
-      import { init } from "./form.js";
+      import { init } from "./validation.js";
+
       const form = document.querySelector("form");
       init(form);
     </script>
@@ -74,17 +71,20 @@
     <script>
       function onSubmit(event) {
         event.preventDefault();
-        console.log(1111, event.submitter);
-        const form = event.target;
-        if (form.elements.name.value !== "bbb") {
-          form.elements.name.setCustomValidity("Oops!");
-        } else {
-          form.elements.name.setCustomValidity("");
-        }
-        if (form.checkValidity()) {
+        const { target: form } = event;
+
+        if (form.checkValidity() && isValid(form)) {
           const fd = new FormData(form);
           const data = Object.fromEntries(fd);
-          console.log(2, data);
+          console.log(111, data);
+        }
+      }
+
+      function isValid(form) {
+        if (!["aaa", "bbb", "ccc"].includes(form.elements.fullname.value)) {
+          console.log(22, form.elements.fullname.value);
+          form.elements.fullname.setCustomValidity("The value is unacceptable");
+          form.checkValidity();
         }
       }
     </script>

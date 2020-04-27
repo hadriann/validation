@@ -25,26 +25,24 @@ function onInput(event) {
 
 function validate(element) {
   const { validity } = element;
-  console.log(validity);
-  if (!validity.customError) {
-    if (validity.valueMissing) {
-      element.setCustomValidity("Please provide a value");
-    } else if (validity.typeMismatch) {
-      element.setCustomValidity("Please enter a valid value");
-    } else if (validity.patternMismatch) {
-      element.setCustomValidity("Please match the value format");
-    } else if (validity.tooShort) {
-      element.setCustomValidity("Please enter a longer value");
-    } else if (validity.tooLong) {
-      element.setCustomValidity("Please enter a shorter value");
-    } else {
-      element.setCustomValidity("");
-    }
+  console.log(0, element, validity);
+
+  if (validity.valueMissing) {
+    element.setCustomValidity("Please provide a value");
+  } else if (validity.typeMismatch) {
+    element.setCustomValidity("Please enter a valid value");
+  } else if (validity.patternMismatch) {
+    element.setCustomValidity("Please match the value format");
+  } else if (validity.tooShort) {
+    element.setCustomValidity("Please enter a longer value");
+  } else if (validity.tooLong) {
+    element.setCustomValidity("Please enter a shorter value");
+  } else {
+    element.setCustomValidity("");
   }
 
   const output = element.form.querySelector(`output[for="${element.id}"]`);
   if (output) {
-    output.className = "error";
     output.textContent = element.validationMessage;
     output.hidden = validity.valid;
   }
