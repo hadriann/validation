@@ -1,107 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Form validation</title>
-		<meta charset="utf-8" />
-		<style>
-			form[data-submitted] :invalid {
-				border: 2px solid tomato;
-			}
+  <head>
+    <title>Form validation</title>
+    <meta charset="utf-8" />
+    <style>
+      form[data-submitted] :invalid {
+        border: 2px solid tomato;
+      }
 
-			form[data-submitted] :valid ~ output {
-				display: none;
-			}
+      form[data-submitted] :valid ~ output {
+        display: none;
+      }
 
-			form[data-submitted] :invalid ~ output {
-				display: initial;
-			}
-		</style>
-	</head>
+      form[data-submitted] :invalid ~ output {
+        display: initial;
+      }
+    </style>
+  </head>
 
-	<body>
-		<form>
-			<p>
-				<label for="fullname">Name:</label>
-				<br />
-				<input
-					id="fullname"
-					name="fullname"
-					type="text"
-					required
-					minlength="3"
-					maxlength="10"
-					placeholder="First and last name"
-				/>
-				<br />
-				<output class="error" for="fullname"></output>
-			</p>
+  <body>
+    <form>
+      <p>
+        <label for="fullname">Name:</label>
+        <br />
+        <input
+          id="fullname"
+          name="fullname"
+          type="text"
+          required
+          minlength="3"
+          maxlength="10"
+          placeholder="First and last name"
+        />
+        <a></a>
+        <br />
+        <output class="error" for="fullname"></output>
+      </p>
 
-			<p>
-				<label for="uuid">UUID:</label>
-				<br />
-				<input
-					id="uuid"
-					name="uuid"
-					type="text"
-					required
-					pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
-					placeholder="UUID"
-				/>
-				<br />
-				<output class="error" for="uuid"></output>
-			</p>
+      <p>
+        <label for="uuid">UUID:</label>
+        <br />
+        <input
+          id="uuid"
+          name="uuid"
+          type="text"
+          required
+          pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+          placeholder="UUID"
+        />
+        <br />
+        <output class="error" for="uuid"></output>
+      </p>
 
-			<p>
-				<label for="url">Website:</label>
-				<br />
-				<input
-					id="url"
-					name="url"
-					type="url"
-					required
-					pattern="[^<>]*"
-					placeholder="Absolute URL"
-				/>
-				<br />
-				<output class="error" for="url"></output>
-			</p>
+      <p>
+        <label for="url">Website:</label>
+        <br />
+        <input
+          id="url"
+          name="url"
+          type="url"
+          required
+          pattern="[^<>]*"
+          placeholder="Absolute URL"
+        />
+        <br />
+        <output class="error" for="url"></output>
+      </p>
 
-			<p>
-				<label for="team">Team:</label>
-				<br />
-				<select id="team" name="team" required>
-					<option value>Choose an option</option>
-					<option>Team 1</option>
-					<option>Team 2</option>
-					<option>Team 3</option>
-					<option>Team 4</option>
-				</select>
-				<br />
-				<output class="error" for="team"></output>
-			</p>
+      <p>
+        <label for="team">Team:</label>
+        <br />
+        <select id="team" name="team" required>
+          <option value>Choose an option</option>
+          <option>Team 1</option>
+          <option>Team 2</option>
+          <option>Team 3</option>
+          <option>Team 4</option>
+        </select>
+        <br />
+        <output class="error" for="team"></output>
+      </p>
 
-			<p>
-				<button>Send</button>
-			</p>
-		</form>
+      <p>
+        <button>Send</button>
+      </p>
+    </form>
 
-		<script type="module">
-			import { init } from './validation.js';
+    <script type="module">
+      import { init } from './validation.js';
 
-			const form = document.querySelector('form');
+      const form = document.querySelector('form');
 
-			init(form, { url: { valueMissing: 'Fill in that URL!' } });
+      init(form, { url: { valueMissing: 'Fill in that URL!' } });
 
-			form.onsubmit = event => {
-				event.preventDefault();
+      form.onsubmit = event => {
+        event.preventDefault();
 
-				const form = event.target;
+        const form = event.target;
 
-				// form.matches(':valid') === true
-				const fd = new FormData(form);
-				const data = Object.fromEntries(fd);
-				console.log(111, data);
-			};
-		</script>
-	</body>
+        // form.matches(':valid') === true
+        const fd = new FormData(form);
+        const data = Object.fromEntries(fd);
+        console.log(111, data);
+      };
+    </script>
+  </body>
 </html>
