@@ -1,49 +1,40 @@
-export function init(form) {
-  form.addEventListener("invalid", onInvalid, true);
-  form.addEventListener("input", onInput);
-  form.addEventListener("submit", onSubmit);
-}
+let customMessages;
 
-function onSubmit(event) {
-  event.preventDefault();
-  event.target.dataset.submitted = true;
+export function init(form, messages) {
+	form.addEventListener('invalid', onInvalid, true);
+	form.addEventListener('input', onInput);
+	customMessages = messages;
 }
 
 function onInvalid(event) {
-  if (!event.target.formNoValidate) {
-    validate(event.target);
-  }
+	const { target } = event;
+	event.preventDefault();
+	target.form.dataset.submitted = true;
+	if (!target.form.noValidate) {
+		displayMessage(target);
+	}
 }
 
 function onInput(event) {
-  const { target } = event;
-  const { form } = target;
-  if (!target.formNoValidate && form.dataset.submitted) {
-    form.checkValidity();
-  }
+	const { form } = event.target;
+	if (!form.noValidate && form.dataset.submitted) {
+		form.checkValidity();
+	}
 }
 
-function validate(element) {
-  const { validity } = element;
-  console.log(0, element, validity);
+function displayMessage(element) {
+	const output = element.form.querySelector(`output.error[for="${element.id}"]`);
+	const cause = getCause(element.validity);
+	const message = customMessages?.[element.id]?.[cause];
+	if (output) {
+		output.textContent = message || element.validationMessage;
+	}
+}
 
-  if (validity.valueMissing) {
-    element.setCustomValidity("Please provide a value");
-  } else if (validity.typeMismatch) {
-    element.setCustomValidity("Please enter a valid value");
-  } else if (validity.patternMismatch) {
-    element.setCustomValidity("Please match the value format");
-  } else if (validity.tooShort) {
-    element.setCustomValidity("Please enter a longer value");
-  } else if (validity.tooLong) {
-    element.setCustomValidity("Please enter a shorter value");
-  } else {
-    element.setCustomValidity("");
-  }
-
-  const output = element.form.querySelector(`output[for="${element.id}"]`);
-  if (output) {
-    output.textContent = element.validationMessage;
-    output.hidden = validity.valid;
-  }
+function getCause(validity) {
+	for (const key in validity) {
+		if (validity[key] === true) {
+			return key;
+		}
+	}
 }
