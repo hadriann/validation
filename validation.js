@@ -10,24 +10,22 @@ function onInvalid(event) {
   const { target } = event;
   event.preventDefault();
   target.form.dataset.submitted = true;
-  if (!target.form.noValidate) {
-    displayMessage(target);
-  }
+  displayMessage(target);
 }
 
 function onInput(event) {
   const { form } = event.target;
-  if (!form.noValidate && form.dataset.submitted) {
+  if (form.dataset.submitted) {
     form.checkValidity();
   }
 }
 
 function displayMessage(element) {
   const output = element.form.querySelector(`output.error[for="${element.id}"]`);
-  const cause = getCause(element.validity);
-  const message = customMessages?.[element.id]?.[cause];
   if (output) {
-    output.textContent = message || element.validationMessage;
+    const cause = getCause(element.validity);
+    const message = customMessages?.[element.id]?.[cause];
+    output.value = message || element.validationMessage;
   }
 }
 
