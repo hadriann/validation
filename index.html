@@ -91,7 +91,7 @@
 
       const form = document.querySelector('form');
 
-      init(form, { url: { valueMissing: 'Fill in that URL!' } });
+      init(form, { url: { valueMissing: 'Fill in them URLs!' } });
 
       form.onsubmit = event => {
         event.preventDefault();
@@ -101,7 +101,7 @@
         // form.matches(':valid') === true
         const fd = new FormData(form);
         const data = Object.fromEntries(fd);
-        console.log(111, data);
+        // consume the data
       };
     </script>
   </body>
