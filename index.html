@@ -19,7 +19,7 @@
   </head>
 
   <body>
-    <form novalidate>
+    <form onsubmit="onSubmit(event)">
       <p>
         <label for="fullname">Name:</label>
         <br />
@@ -32,7 +32,6 @@
           maxlength="10"
           placeholder="First and last name"
         />
-        <a></a>
         <br />
         <output class="error" for="fullname"></output>
       </p>
@@ -90,19 +89,17 @@
       import { init } from './validation.js';
 
       const form = document.querySelector('form');
+      const messages = { url: { valueMissing: 'Fill in them URLs.' } };
+      init(form, messages);
 
-      init(form, { url: { valueMissing: 'Fill in them URLs!' } });
-
-      form.onsubmit = event => {
+      function onSubmit(event) {
         event.preventDefault();
-
         const form = event.target;
-
-        // form.matches(':valid') === true
         const fd = new FormData(form);
         const data = Object.fromEntries(fd);
+        // form.matches(':valid') === true
         // consume the data
-      };
+      }
     </script>
   </body>
 </html>
