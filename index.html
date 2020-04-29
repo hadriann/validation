@@ -13,16 +13,23 @@
       }
 
       form[data-submitted] :invalid ~ output {
-        display: initial;
+        display: block;
+      }
+
+      label,
+      output {
+        display: block;
       }
     </style>
   </head>
 
   <body>
-    <form onsubmit="onSubmit(event)">
+    <form>
       <p>
-        <label for="fullname">Name:</label>
-        <br />
+        <label for="fullname">Name</label>
+        <label for="fullname">
+          <small>Required, between 3 and 10 characters</small>
+        </label>
         <input
           id="fullname"
           name="fullname"
@@ -32,13 +39,44 @@
           maxlength="10"
           placeholder="First and last name"
         />
-        <br />
-        <output class="error" for="fullname"></output>
+        <output for="fullname"></output>
       </p>
 
       <p>
-        <label for="uuid">UUID:</label>
-        <br />
+        <label for="username">Username</label>
+        <label for="username">
+          <small>Required, none of: John Doe, Jane Doe</small>
+        </label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          required
+          pattern="^(?!(John Doe|Jane Doe)$).+"
+        />
+        <output for="username"></output>
+      </p>
+
+      <p>
+        <label for="os">Operating system</label>
+        <label for="os">
+          <small>Required, any of: Linux, Windows, MacOS</small>
+        </label>
+        <input
+          id="os"
+          name="os"
+          type="text"
+          required
+          pattern="Linux|Windows|MacOS"
+        />
+        <output for="os"></output>
+      </p>
+
+      <p>
+        <label for="uuid">UUID</label>
+        <label for="uuid">
+          <small>Required, valid UUID format</small>
+        </label>
         <input
           id="uuid"
           name="uuid"
@@ -47,28 +85,30 @@
           pattern="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
           placeholder="UUID"
         />
-        <br />
-        <output class="error" for="uuid"></output>
+        <output for="uuid"></output>
       </p>
 
       <p>
-        <label for="url">Website:</label>
-        <br />
+        <label for="url">Website</label>
+        <label for="url">
+          <small>Required, valid URL format, no &lt; or &gt; characters</small>
+        </label>
         <input
           id="url"
           name="url"
           type="url"
           required
           pattern="[^<>]*"
-          placeholder="Absolute URL"
+          placeholder="URL"
         />
-        <br />
-        <output class="error" for="url"></output>
+        <output for="url"></output>
       </p>
 
       <p>
-        <label for="team">Team:</label>
-        <br />
+        <label for="team">Team</label>
+        <label for="team">
+          <small>Required</small>
+        </label>
         <select id="team" name="team" required>
           <option value>Choose an option</option>
           <option>Team 1</option>
@@ -76,30 +116,33 @@
           <option>Team 3</option>
           <option>Team 4</option>
         </select>
-        <br />
-        <output class="error" for="team"></output>
+        <output for="team"></output>
       </p>
 
       <p>
-        <button>Send</button>
+        <button value="send">SEND</button>
+        <button value="draft" formnovalidate>Save as draft</button>
       </p>
     </form>
 
     <script type="module">
-      import { init } from './validation.js';
+      import { init } from "./validation.js";
 
-      const form = document.querySelector('form');
-      const messages = { url: { valueMissing: 'Fill in them URLs.' } };
+      const form = document.querySelector("form");
+      const messages = { url: { valueMissing: "Fill in them URLs." } };
       init(form, messages);
 
-      function onSubmit(event) {
+      form.onsubmit = (event) => {
         event.preventDefault();
         const form = event.target;
         const fd = new FormData(form);
         const data = Object.fromEntries(fd);
         // form.matches(':valid') === true
         // consume the data
-      }
+        console.log(
+          event.submitter.value === "draft" ? "You saved a draft." : "Sent!"
+        );
+      };
     </script>
   </body>
 </html>

@@ -1,8 +1,8 @@
 let customMessages;
 
 export function init(form, messages) {
-  form.addEventListener('invalid', onInvalid, true);
-  form.addEventListener('input', onInput);
+  form.addEventListener("invalid", onInvalid, true);
+  form.addEventListener("input", onInput);
   customMessages = messages;
 }
 
@@ -21,7 +21,7 @@ function onInput(event) {
 }
 
 function displayMessage(element) {
-  const output = element.form.querySelector(`output.error[for="${element.id}"]`);
+  const output = element.form.querySelector(`output[for="${element.id}"]`);
   if (output) {
     const cause = getCause(element.validity);
     const message = customMessages?.[element.id]?.[cause];
